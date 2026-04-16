@@ -1,135 +1,99 @@
---// REYSCRIPT CYBER FUTURE UI v2
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
+-- 🌐 Window
+local Window = Rayfield:CreateWindow({
+   Name = "ReyScript Hub",
+   LoadingTitle = "ReyScript Loading...",
+   LoadingSubtitle = "Cyber UI System",
+   ShowText = "ReyScript",
+   ToggleUIKeybind = "K",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "ReyScript",
+      FileName = "config"
+   }
+})
 
-local player = Players.LocalPlayer
+---------------------------------------------------
+-- 📂 MAIN TAB
+---------------------------------------------------
+local MainTab = Window:CreateTab("Main", 4483362458)
 
--- 🌌 ScreenGui
-local gui = Instance.new("ScreenGui")
-gui.Name = "ReyCyberUI"
-gui.ResetOnSpawn = false
-gui.Parent = player:WaitForChild("PlayerGui")
+local MainSection = MainTab:CreateSection("Main Features")
+MainSection:Set("Main Control Panel")
 
--- 🌑 Background blur layer (fake cyber depth)
-local blurFrame = Instance.new("Frame")
-blurFrame.Size = UDim2.new(1,0,1,0)
-blurFrame.BackgroundColor3 = Color3.fromRGB(10,10,15)
-blurFrame.BackgroundTransparency = 0.35
-blurFrame.Parent = gui
+MainTab:CreateButton({
+   Name = "Print Hello",
+   Callback = function()
+      print("Hello from Main Tab")
+   end
+})
 
--- 📦 Main Container
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 360, 0, 200)
-frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.BackgroundColor3 = Color3.fromRGB(18, 18, 28)
-frame.BorderSizePixel = 0
-frame.Parent = gui
+MainTab:CreateDivider()
 
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 14)
+---------------------------------------------------
+-- 📂 SECOND TAB
+---------------------------------------------------
+local SecondTab = Window:CreateTab("Second", 4483362458)
 
--- 🌈 Neon stroke
-local stroke = Instance.new("UIStroke")
-stroke.Color = Color3.fromRGB(140, 90, 255)
-stroke.Thickness = 1.5
-stroke.Transparency = 0.2
-stroke.Parent = frame
+local SecondSection = SecondTab:CreateSection("Utilities")
+SecondSection:Set("Utility Panel")
 
--- ✨ Top glow bar
-local top = Instance.new("Frame")
-top.Size = UDim2.new(1,0,0,42)
-top.BackgroundColor3 = Color3.fromRGB(130, 70, 255)
-top.BorderSizePixel = 0
-top.Parent = frame
+SecondTab:CreateButton({
+   Name = "Test Action",
+   Callback = function()
+      print("Second Tab Active")
+   end
+})
 
-Instance.new("UICorner", top).CornerRadius = UDim.new(0,14)
+local Divider2 = SecondTab:CreateDivider()
 
--- 🔮 Gradient effect
-local grad = Instance.new("UIGradient")
-grad.Color = ColorSequence.new{
-	ColorSequenceKeypoint.new(0, Color3.fromRGB(120,60,255)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(0,200,255))
-}
-grad.Rotation = 45
-grad.Parent = top
+---------------------------------------------------
+-- ⚙️ SETTINGS TAB
+---------------------------------------------------
+local SettingsTab = Window:CreateTab("Settings", 4483362458)
 
--- 🏷️ Title
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1,0,1,0)
-title.BackgroundTransparency = 1
-title.Text = "REYSCRIPT // CYBER HUB"
-title.TextColor3 = Color3.fromRGB(255,255,255)
-title.Font = Enum.Font.GothamBold
-title.TextSize = 16
-title.Parent = top
+local SettingsSection = SettingsTab:CreateSection("UI Settings")
+SettingsSection:Set("Interface Control")
 
--- 📄 Description
-local desc = Instance.new("TextLabel")
-desc.Size = UDim2.new(1,-20,0,60)
-desc.Position = UDim2.new(0,10,0,55)
-desc.BackgroundTransparency = 1
-desc.Text = "Futuristic Script Interface • Optimized UI Core • Neon System"
-desc.TextColor3 = Color3.fromRGB(180,180,190)
-desc.Font = Enum.Font.Gotham
-desc.TextSize = 13
-desc.TextWrapped = true
-desc.TextXAlignment = Enum.TextXAlignment.Left
-desc.Parent = frame
+SettingsTab:CreateButton({
+   Name = "Hide UI",
+   Callback = function()
+      Rayfield:SetVisibility(false)
+   end
+})
 
--- 🟣 Status pill
-local pill = Instance.new("Frame")
-pill.Size = UDim2.new(0,120,0,28)
-pill.Position = UDim2.new(0,10,1,-40)
-pill.BackgroundColor3 = Color3.fromRGB(40, 220, 160)
-pill.BorderSizePixel = 0
-pill.Parent = frame
+SettingsTab:CreateButton({
+   Name = "Show UI State",
+   Callback = function()
+      print("Visible:", Rayfield:isVisible())
+   end
+})
 
-Instance.new("UICorner", pill).CornerRadius = UDim.new(1,0)
+SettingsTab:CreateButton({
+   Name = "Destroy UI",
+   Callback = function()
+      Rayfield:Destroy()
+   end
+})
 
-local pillText = Instance.new("TextLabel")
-pillText.Size = UDim2.new(1,0,1,0)
-pillText.BackgroundTransparency = 1
-pillText.Text = "ONLINE"
-pillText.TextColor3 = Color3.fromRGB(0,0,0)
-pillText.Font = Enum.Font.GothamBold
-pillText.TextSize = 12
-pillText.Parent = pill
+---------------------------------------------------
+-- ℹ️ ABOUT TAB
+---------------------------------------------------
+local AboutTab = Window:CreateTab("About", 4483362458)
 
--- ❌ Close button
-local close = Instance.new("TextButton")
-close.Size = UDim2.new(0,90,0,28)
-close.Position = UDim2.new(1,-100,1,-40)
-close.BackgroundColor3 = Color3.fromRGB(255,70,90)
-close.Text = "CLOSE"
-close.TextColor3 = Color3.fromRGB(255,255,255)
-close.Font = Enum.Font.GothamBold
-close.TextSize = 12
-close.Parent = frame
+local AboutSection = AboutTab:CreateSection("About This Hub")
+AboutSection:Set("ReyScript Information")
 
-Instance.new("UICorner", close).CornerRadius = UDim.new(1,0)
+AboutTab:CreateLabel("ReyScript Hub v1.0")
+AboutTab:CreateLabel("Made with Rayfield UI")
+AboutTab:CreateLabel("Cyber Futuristic Interface")
 
--- 🎬 Smooth intro animation
-frame.Position = UDim2.new(0.5, 0, 0.55, 0)
-frame.BackgroundTransparency = 1
-top.BackgroundTransparency = 1
+AboutTab:CreateDivider()
 
-TweenService:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-	Position = UDim2.new(0.5,0,0.5,0),
-	BackgroundTransparency = 0
-}):Play()
-
-TweenService:Create(top, TweenInfo.new(0.6), {
-	BackgroundTransparency = 0
-}):Play()
-
--- ❌ Close animation
-close.MouseButton1Click:Connect(function()
-	local tween = TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Quad), {
-		Size = UDim2.new(0, 0, 0, 0),
-		BackgroundTransparency = 1
-	})
-	tween:Play()
-	tween.Completed:Wait()
-	gui:Destroy()
-end)
+AboutTab:CreateButton({
+   Name = "Check UI Status",
+   Callback = function()
+      print("Rayfield Active:", Rayfield:isVisible())
+   end
+})
