@@ -1,116 +1,91 @@
---// FPS BOOST SYSTEM (by Rey)
+--// Minimal Premium Community UI
+--// By Rey
+
+local linkToCopy = "https://your-link-here.com" -- ganti sendiri
 
 local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local Lighting = game:GetService("Lighting")
-
+local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
-gui.Name = "FPSBoostLoader"
+gui.Name = "CommunityUI"
 gui.ResetOnSpawn = false
-gui.Parent = player:WaitForChild("PlayerGui")
+gui.Parent = game.CoreGui
 
----------------------------------------------------
--- 🌑 BACKGROUND LOADING SCREEN
----------------------------------------------------
-local bg = Instance.new("Frame")
-bg.Size = UDim2.new(1,0,1,0)
-bg.BackgroundColor3 = Color3.fromRGB(10,10,10)
-bg.BorderSizePixel = 0
-bg.Parent = gui
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0, 380, 0, 170)
+frame.Position = UDim2.new(0.5, -190, 0.5, -85)
+frame.BackgroundColor3 = Color3.fromRGB(18,18,18)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
 
----------------------------------------------------
--- ✨ TITLE TEXT
----------------------------------------------------
-local text = Instance.new("TextLabel")
-text.Size = UDim2.new(1,0,0,80)
-text.Position = UDim2.new(0,0,0.45,0)
-text.BackgroundTransparency = 1
-text.Text = "FPS Boost made by Rey"
-text.TextColor3 = Color3.fromRGB(180,180,180)
-text.Font = Enum.Font.FredokaOne
-text.TextSize = 32
-text.Parent = bg
+local corner = Instance.new("UICorner", frame)
+corner.CornerRadius = UDim.new(0, 14)
 
--- 🎨 Gradient
-local grad = Instance.new("UIGradient")
-grad.Color = ColorSequence.new{
-	ColorSequenceKeypoint.new(0, Color3.fromRGB(80,80,80)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(20,20,20))
-}
-grad.Rotation = 0
-grad.Parent = text
+local stroke = Instance.new("UIStroke", frame)
+stroke.Color = Color3.fromRGB(255,0,0)
+stroke.Thickness = 1.5
+stroke.Transparency = 0.2
 
--- 🖤 Stroke
-local stroke = Instance.new("UIStroke")
-stroke.Color = Color3.fromRGB(0,0,0)
-stroke.Thickness = 2
-stroke.Parent = text
+-- Shadow Feel
+local glow = Instance.new("ImageLabel")
+glow.Parent = frame
+glow.BackgroundTransparency = 1
+glow.Size = UDim2.new(1, 30, 1, 30)
+glow.Position = UDim2.new(0, -15, 0, -15)
+glow.Image = "rbxassetid://5028857084"
+glow.ImageTransparency = 0.75
+glow.ScaleType = Enum.ScaleType.Slice
+glow.SliceCenter = Rect.new(24,24,276,276)
+glow.ZIndex = 0
 
----------------------------------------------------
--- 🎬 LOADING ANIMATION
----------------------------------------------------
-for i = 1, 20 do
-	text.TextTransparency = 1 - (i * 0.05)
-	task.wait(0.03)
-end
+-- Title
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.BackgroundTransparency = 1
+title.Size = UDim2.new(1, -20, 0, 70)
+title.Position = UDim2.new(0, 10, 0, 15)
+title.Text = "Join Community For Permanent VIP Script !!"
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.TextWrapped = true
 
-task.wait(1)
+-- Button
+local button = Instance.new("TextButton")
+button.Parent = frame
+button.Size = UDim2.new(0.82, 0, 0, 45)
+button.Position = UDim2.new(0.09, 0, 1, -60)
+button.BackgroundColor3 = Color3.fromRGB(255,40,40)
+button.Text = "COPY LINK"
+button.TextColor3 = Color3.fromRGB(255,255,255)
+button.TextScaled = true
+button.Font = Enum.Font.GothamBold
+button.AutoButtonColor = true
 
----------------------------------------------------
--- ⚡ FPS BOOST CORE
----------------------------------------------------
+local bcorner = Instance.new("UICorner", button)
+bcorner.CornerRadius = UDim.new(0, 10)
 
--- 🌫 Lighting optimize
-Lighting.GlobalShadows = false
-Lighting.FogEnd = 1e10
-Lighting.Brightness = 1
-Lighting.EnvironmentDiffuseScale = 0
-Lighting.EnvironmentSpecularScale = 0
-
--- 🧹 Remove textures / effects
-for _, v in pairs(workspace:GetDescendants()) do
-	if v:IsA("Decal") or v:IsA("Texture") then
-		v:Destroy()
-	end
-
-	if v:IsA("ParticleEmitter") or v:IsA("Trail") or v:IsA("Smoke") or v:IsA("Fire") then
-		v.Enabled = false
-	end
-
-	if v:IsA("BasePart") then
-		v.Material = Enum.Material.Plastic
-		v.CastShadow = false
-	end
-end
-
--- 🔁 Anti-lag for new objects
-workspace.DescendantAdded:Connect(function(v)
-	task.wait()
-
-	if v:IsA("Decal") or v:IsA("Texture") then
-		v:Destroy()
-	end
-
-	if v:IsA("ParticleEmitter") or v:IsA("Trail") then
-		v.Enabled = false
-	end
-
-	if v:IsA("BasePart") then
-		v.CastShadow = false
-		v.Material = Enum.Material.Plastic
+-- Copy System
+button.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard(linkToCopy)
+		button.Text = "COPIED!"
+		wait(1.2)
+		button.Text = "COPY LINK"
+	else
+		button.Text = "UNSUPPORTED"
+		wait(1.2)
+		button.Text = "COPY LINK"
 	end
 end)
 
----------------------------------------------------
--- 🎬 EXIT TRANSITION
----------------------------------------------------
-task.wait(1)
-
-for i = 1, 20 do
-	bg.BackgroundTransparency = i * 0.05
-	text.TextTransparency = i * 0.05
-	task.wait(0.02)
-end
-
-gui:Destroy()
+-- Smooth Intro
+frame.Size = UDim2.new(0,0,0,0)
+game:GetService("TweenService"):Create(
+	frame,
+	TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+	{Size = UDim2.new(0,380,0,170)}
+):Play()
